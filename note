@@ -1,0 +1,16 @@
+apt install postgresql
+mot de pass postgres user = postgres
+
+Utilisateur Unix : appli_web mdp appli_web
+connection database appli_web : psql appli_web
+
+
+
+
+
+
+
+help:
+\l = show databases
+\dt = show tables
+\q exit
