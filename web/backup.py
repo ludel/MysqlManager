@@ -5,11 +5,18 @@ import time
 
 
 def main():
-    database_name = "test"  # input("Database name (default:test) : ")
-    user = "root"  # input("User (default:root) : ")
-    password = "lolilol47"  # input("Password (default:lolilol47) : ")
-    host = "localhost"  # input("host (default:localhost): ")
-    choice = int(input("Choice your process : "))
+    database_name = checker_value(input("Database name (default:test) : "), "test")
+    user = checker_value(input("User (default:root) : "), "root")
+    password = checker_value(input("Password (default:lolilol47) : "), "lolilol47")
+    host = checker_value(input("host (default:localhost): "), "localhost")
+    text = "0 : "+str(show_tables.__doc__)+"\n" \
+           "1 : "+str(create_backup.__doc__)+"\n" \
+           "2 : "+str(restore_backup.__doc__)+"\n"\
+           "3 : "+str(delete_old_backup.__doc__)+"\n"
+
+    print(text)
+
+    choice = int(checker_value(input("Choix (0) : "), 0))
 
     con = connection(user, password, database_name, host)
     cursor = con.cursor()
@@ -19,9 +26,9 @@ def main():
     elif choice == 1:
         create_backup(user, password, database_name, input("Dossier de destination : "))
     elif choice == 2:
-        restore_backup(user, password, database_name, input("Path sql file : "))
+        restore_backup(user, password, database_name, input("Chemin du fichier sql : "))
     elif choice == 3:
-        delete_old_backup(input("Backups directory : "))
+        delete_old_backup(input("Dossier contenant les backups : "))
 
     print("Process end")
 
@@ -38,6 +45,8 @@ def connection(user, password, database_name, host):
             exit("Error: Database does not exist")
         else:
             exit(err)
+    except:
+        exit("Unknown error: What the fuck")
     return con
 
 
@@ -46,7 +55,7 @@ def show_tables(cursor, table_name):
     cursor.execute("SELECT * FROM {}".format(table_name))
     rows = cursor.fetchall()
     for row in rows:
-        print('{0} - {1} '.format(row[0], row[1]))
+        print(row)
 
 
 def create_backup(user, password, database_name, path_file):
@@ -55,28 +64,41 @@ def create_backup(user, password, database_name, path_file):
     directory = file + ".gz"
     try:
         os.popen("mysqldump -u {0} -p{1} {2}  | gzip > {4} ".format(user, password, database_name, file, directory))
+        print("Dump de la base de donnée réussit")
     except PermissionError:
-        print("PermissionError: bad permission in path {0}".format(path_file))
+        exit("PermissionError: bad permission in path {0}".format(path_file))
     except:
-        print("Error: dump error")
+        exit("Error: dump error")
 
 
 def restore_backup(user, password, database_name,  file):
     """Restore une backup de la base de donnée"""
     try:
         os.popen("gunzip < {3} | mysql -u {0] -p{1} {2}".format(user, password, database_name, file))
+        print("Restoration de la base de donnée réussit")
     except PermissionError:
-        print("PermissionError: bad permission {0} file".format(file))
+        exit("PermissionError: bad permission {0} file".format(file))
     except:
-        print("Error: restore failed. Check path sql file.")
+        exit("Error: restore failed. Check path sql file.")
 
 
 def delete_old_backup(directory):
-    """Supprimer un backup datant de plus 1 semaine"""
+    """Supprimer un backup datant de plus 1 semaine. Attention le programme supprime automatiquement"""
+    has_old_directory = False
     for i in os.listdir(directory):
         lastweek = time.time() - 7
         if os.path.getmtime(directory+i) < lastweek:
             os.remove(directory+i)
+            print("{} remove".format(directory+i))
+            has_old_directory = True
+    if not has_old_directory:
+        print("Rien à supprimer")
+
+
+def checker_value(value, default):
+    if value == '':
+        value = default
+    return value
 
 
 main()
