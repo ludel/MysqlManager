@@ -14,24 +14,24 @@ def main():
     password = checker_value(input("Password () : "), "")
     host = checker_value(input("host (localhost): "), "localhost")
 
-    show_info()
-
-    choice = int(checker_value(input("Choice (0) : "), 0))
-
     con = connection(user, password, database_name, host)
     cursor = con.cursor()
 
-    if choice == 0:
-        show_tables(cursor, input("Table name : "))
-    elif choice == 1:
-        create_backup(user, password, input("Destination directory: "),
-                      input("Database (leave empty to dump the entire database) : "), input("Table :"))
-    elif choice == 2:
-        restore_backup(user, password, database_name, input("Path to sql file : "))
-    elif choice == 3:
-        delete_old_backup(input("Backup directory : "))
-    else:
-        exit("InvalidCharacter")
+    show_info()
+
+    while True:
+        choice = int(checker_value(input("Choice (0) : "), 0))
+        if choice == 0:
+            show_tables(cursor, input("Table name : "))
+        elif choice == 1:
+            create_backup(user, password, input("Destination directory: "),
+                          input("Database (leave empty to dump the entire database) : "), input("Table :"))
+        elif choice == 2:
+            restore_backup(user, password, database_name, input("Path to .sql.gz archive : "))
+        elif choice == 3:
+            delete_old_backup(input("Backup directory : "))
+        else:
+            break
 
     print("Process end")
 
@@ -90,12 +90,10 @@ def create_backup(user, password, path_file, database="", table=""):
 def restore_backup(user, password, database_name, file):
     """Restore une backup de la base de donnée"""
     try:
-        os.popen("gunzip < {3} | mysql -u {0] -p{1} {2}".format(user, password, database_name, file))
+        os.popen("gunzip < {} | mysql -u {} -p{} {}".format(file, user, password, database_name))
         print("Restore Succeed")
     except PermissionError:
         exit("PermissionError: bad permission {0} file".format(file))
-    except:
-        exit("Error: restore failed. Check path sql file.")
 
 
 def delete_old_backup(directory):
