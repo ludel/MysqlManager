@@ -42,4 +42,5 @@ systemctl restart mysql;
 systemctl restart nginx;
 systemctl restart php7.0-fpm;
 clear;
+mysql -u root -p < ~/postgresql/install/data.sql;
 echo "Script Effectue, vous pouvez acceder a Php My Admin via l'adresse ip du serveur, Port 80 ;)"
