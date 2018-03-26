@@ -9,7 +9,7 @@ def main():
     print("--- === Database Manager === ---", end="\n")
     print("================================", end=2 * "\n")
 
-    database_name = checker_value(input("Database name (test) : "), "test")
+    database_name = checker_value(input("Database name (foo) : "), "test")
     user = checker_value(input("User (root) : "), "root")
     password = checker_value(input("Password () : "), "")
     host = checker_value(input("host (localhost): "), "localhost")
