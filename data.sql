@@ -1,4 +1,5 @@
-CREATE DATABASE test;
+CREATE DATABASE foo;
+USE foo;
 
 create table data (
 	id INT,
