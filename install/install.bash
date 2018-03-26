@@ -1,4 +1,4 @@
-#!/usr/bin/bash
+#!/bin/bash
 # script for ubuntu 16.04 lts server
 # authors : Dorian Wilhelm & Ludovic Delsol
 
@@ -21,7 +21,7 @@ systemctl enable php7.0-fpm && systemctl start php7.0-fpm ;
 cd /var/www/html && rm -rf * --no-preserve-root;
 wget https://files.phpmyadmin.net/phpMyAdmin/4.7.9/phpMyAdmin-4.7.9-all-languages.zip;
 unzip phpMyAdmin-4.7.9-all-languages.zip;
-mv phpMyAdmin-4.7.9-all-languages/* /var/www/html
+mv phpMyAdmin-4.7.9-all-languages/* /var/www/html;
 
 
 # give permissions
@@ -30,7 +30,7 @@ chmod -R 755 /var/www;
 
 
 # clone project and move files config
-git clone https://github.com/ludel/postgresql.git
+cd ~ && git clone https://github.com/ludel/postgresql.git;
 cd ~/postgresql/install && \ 
 mv main-config /etc/nginx/sites-available && \
 ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
