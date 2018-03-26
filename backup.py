@@ -25,7 +25,7 @@ def main():
         elif choice == 1:
             create_backup(user, password, input("Destination directory: "),
                           input("Database (leave empty to dump the entire database) : "),
-                          input("Table (leave empty to dump the all tables):"))
+                          input("Table (leave empty to dump all tables):"))
         elif choice == 2:
             restore_backup(user, password, database_name, input("Path to .sql.gz archive : "))
         elif choice == 3:
