@@ -12,7 +12,7 @@ apt install wget unzip git nginx php-fpm php-mysql mysql-server -y;
 
 
 # enable&start all services
-systemctl enable mysqld && systemctl start mysqld;
+systemctl enable mysql && systemctl start mysql;
 systemctl enable nginx && systemctl start nginx ;
 systemctl enable php7.0-fpm && systemctl start php7.0-fpm ;
 
@@ -38,6 +38,8 @@ ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
 rm -rf /etc/nginx/nginx.conf && mv ~/postgresql/install/nginx.conf /etc/nginx/;
 rm -rf /etc/php/7.0/fpm/php.ini && mv ~/postgresql/install/php.ini /etc/php/7.0/fpm/;
 
-systemctl restart mysqld;
+systemctl restart mysql;
 systemctl restart nginx;
 systemctl restart php7.0-fpm;
+clear;
+echo "Script Effectue, vous pouvez acceder a Php My Admin via l'adresse ip du serveur, Port 80 ;)"
