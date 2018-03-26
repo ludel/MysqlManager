@@ -17,9 +17,8 @@ def main():
     con = connection(user, password, database_name, host)
     cursor = con.cursor()
 
-    show_info()
-
     while True:
+        show_info()
         choice = int(checker_value(input("Choice (0) : "), 0))
         if choice == 0:
             show_tables(cursor, input("Table name : "))
