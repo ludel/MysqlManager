@@ -35,3 +35,7 @@ mv ~/postgresql/install/main-config /etc/nginx/sites-available;
 ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
 rm -rf /etc/nginx/nginx.conf && mv ~/postgresql/install/nginx.conf /etc/nginx/;
 rm -rf /etc/php/7.0/fpm/php.ini && mv ~/postgresql/install/php.ini /etc/php/7.0/fpm/;
+
+systemctl restart mysqld;
+systemctl restart nginx;
+systemctl restart php7.0-fpm;
