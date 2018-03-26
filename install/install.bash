@@ -2,9 +2,7 @@
 # script for ubuntu 16.04 lts server
 # authors : Dorian Wilhelm & Ludovic Delsol
 
-
 # update repos && upgrade soft
-su;
 apt update && apt upgrade -y;
 apt autoremove -y;
 
