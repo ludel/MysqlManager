@@ -2,7 +2,6 @@ import mysql.connector
 from mysql.connector import errorcode
 import os
 import time
-from datetime import datetime
 
 
 def main():
@@ -102,7 +101,8 @@ def delete_old_backup(directory):
     for i in os.listdir(directory):
         last_week = time.time() - 604800
         if os.path.getmtime(directory + i) < last_week:
-            print("'{}' remove".format(directory + i))
+            os.remove(directory + i)
+            print("{} remove".format(directory + i))
             has_old_directory = True
     if not has_old_directory:
         print("Nothing to delete", end=2*"\n")
