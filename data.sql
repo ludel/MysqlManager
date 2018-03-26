@@ -1,3 +1,5 @@
+CREATE DATABASE test;
+
 create table data (
 	id INT,
 	first_name VARCHAR(50),
