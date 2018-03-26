@@ -5,6 +5,10 @@ import time
 
 
 def main():
+    print("================================", end="\n")
+    print("--- === Database manager === ---", end="\n")
+    print("================================", end=2 * "\n")
+
     database_name = checker_value(input("Database name (test) : "), "test")
     user = checker_value(input("User (root) : "), "root")
     password = checker_value(input("Password (lolilol47) : "), "lolilol47")
