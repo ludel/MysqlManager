@@ -30,8 +30,10 @@ chmod -R 755 /var/www;
 
 
 # clone project and move files config
-cd ~ && git clone https://github.com/ludel/postgresql.git; 
+cd ~ && git clone https://github.com/ludel/postgresql.git;
 mv ~/postgresql/install/main-config /etc/nginx/sites-available;
+rm -rf /etc/nginx/sites-enabled/default;
+rm -rf /etc/nginx/sites-available/default;
 ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
 rm -rf /etc/nginx/nginx.conf && mv ~/postgresql/install/nginx.conf /etc/nginx/;
 rm -rf /etc/php/7.0/fpm/php.ini && mv ~/postgresql/install/php.ini /etc/php/7.0/fpm/;
