@@ -6,30 +6,30 @@ import time
 
 def main():
     print("================================", end="\n")
-    print("--- === Database manager === ---", end="\n")
+    print("--- === Database Manager === ---", end="\n")
     print("================================", end=2 * "\n")
 
     database_name = checker_value(input("Database name (test) : "), "test")
     user = checker_value(input("User (root) : "), "root")
-    password = checker_value(input("Password (lolilol47) : "), "lolilol47")
+    password = checker_value(input("Password () : "), "")
     host = checker_value(input("host (localhost): "), "localhost")
 
     show_info()
 
-    choice = int(checker_value(input("Choix (0) : "), 0))
+    choice = int(checker_value(input("Choice (0) : "), 0))
 
     con = connection(user, password, database_name, host)
     cursor = con.cursor()
 
     if choice == 0:
-        show_tables(cursor, input("Nom de la table : "))
+        show_tables(cursor, input("Table name : "))
     elif choice == 1:
-        create_backup(user, password, input("Dossier de destination : "),
-                      input("Base de donnée (laisser vide pour dump toute la bdd) : "), input("Tables :"))
+        create_backup(user, password, input("Destination directory: "),
+                      input("Database (leave empty to dump the entire database) : "), input("Table :"))
     elif choice == 2:
-        restore_backup(user, password, database_name, input("Chemin du fichier sql : "))
+        restore_backup(user, password, database_name, input("Path to sql file : "))
     elif choice == 3:
-        delete_old_backup(input("Dossier contenant les backups : "))
+        delete_old_backup(input("Backup directory : "))
     else:
         exit("InvalidCharacter")
 
@@ -80,7 +80,7 @@ def create_backup(user, password, path_file, database="", table=""):
         command = "mysqldump -u {} -p{} --all-databases | gzip > {} ".format(user, password, archive_path)
     try:
         os.popen(command)
-        print("Dump de la base de donnée réussit")
+        print("Dump Succeed")
     except PermissionError:
         exit("PermissionError: bad permission in path {}".format(path_file))
     except:
@@ -91,7 +91,7 @@ def restore_backup(user, password, database_name, file):
     """Restore une backup de la base de donnée"""
     try:
         os.popen("gunzip < {3} | mysql -u {0] -p{1} {2}".format(user, password, database_name, file))
-        print("Restoration de la base de donnée réussit")
+        print("Restore Succeed")
     except PermissionError:
         exit("PermissionError: bad permission {0} file".format(file))
     except:
