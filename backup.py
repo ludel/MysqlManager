@@ -79,7 +79,7 @@ def create_backup(user, password, path_file, database="", table=""):
         command = "mysqldump -u {} -p{} --all-databases | gzip > {} ".format(user, password, archive_path)
     try:
         os.popen(command)
-        print("Dump Succeed", end=2*"\n")
+        print("Dump Succeed", end=2 * "\n")
     except PermissionError:
         exit("PermissionError: bad permission in path {}".format(path_file))
     except:
@@ -90,7 +90,7 @@ def restore_backup(user, password, database_name, file):
     """Restore une backup de la base de donnée"""
     try:
         os.popen("gunzip < {} | mysql -u {} -p{} {}".format(file, user, password, database_name))
-        print("Restore Succeed", end=2*"\n")
+        print("Restore Succeed", end=2 * "\n")
     except PermissionError:
         exit("PermissionError: bad permission {0} file".format(file))
 
@@ -98,14 +98,23 @@ def restore_backup(user, password, database_name, file):
 def delete_old_backup(directory):
     """Supprimer un backup datant de plus 1 semaine. Attention le programme supprime automatiquement"""
     has_old_directory = False
+    archive_to_delete = []
+    seven_day = 604800
     for i in os.listdir(directory):
-        last_week = time.time() - 604800
+        last_week = time.time() - seven_day
         if os.path.getmtime(directory + i) < last_week:
-            os.remove(directory + i)
-            print("{} remove".format(directory + i))
+            archive_to_delete.append(directory + i)
+            print("{} old backup".format(directory + i))
             has_old_directory = True
-    if not has_old_directory:
-        print("Nothing to delete", end=2*"\n")
+    if has_old_directory:
+        if checker_value(input("Delete ? (y,n)"), "n") == "y":
+            for archive in archive_to_delete:
+                print("{} is delete".format(archive))
+                os.remove(archive)
+        else:
+            print("Canceled", end=2 * "\n")
+    else:
+        print("Nothing to delete", end=2 * "\n")
 
 
 def checker_value(value, default):
