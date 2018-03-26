@@ -32,7 +32,7 @@ chmod -R 755 /var/www;
 
 
 # clone project and move files config
-git clone git@github.com:ludel/postgresql.git
+git clone https://github.com/ludel/postgresql.git
 cd ~/postgresql/install && \ 
 mv main-config /etc/nginx/sites-available && \
 ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
