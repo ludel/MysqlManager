@@ -8,7 +8,7 @@ apt autoremove -y;
 
 
 # install all services for web server
-apt install wget unzip git nginx php-fpm php-mysql mysql-server -y;
+apt install unzip git nginx php-fpm php-mysql mysql-server -y;
 
 
 # enable&start all services
@@ -31,16 +31,16 @@ chmod -R 755 /var/www;
 
 # clone project and move files config
 cd ~ && git clone https://github.com/ludel/mysqlManager.git;
-mv ~/postgresql/install/main-config /etc/nginx/sites-available;
+mv ~/mysqlManager/install/main-config /etc/nginx/sites-available;
 rm -rf /etc/nginx/sites-enabled/default;
 rm -rf /etc/nginx/sites-available/default;
 ln -s /etc/nginx/sites-available/main-config /etc/nginx/sites-enabled/;
-rm -rf /etc/nginx/nginx.conf && mv ~/postgresql/install/nginx.conf /etc/nginx/;
-rm -rf /etc/php/7.0/fpm/php.ini && mv ~/postgresql/install/php.ini /etc/php/7.0/fpm/;
+rm -rf /etc/nginx/nginx.conf && mv ~/mysqlManager/install/nginx.conf /etc/nginx/;
+rm -rf /etc/php/7.0/fpm/php.ini && mv ~/mysqlManager/install/php.ini /etc/php/7.0/fpm/;
 
 systemctl restart mysql;
 systemctl restart nginx;
 systemctl restart php7.0-fpm;
 clear;
-mysql -u root -p < ~/postgresql/install/data.sql;
+mysql -u root -p < ~/mysqlManager/install/data.sql;
 echo "Script Effectue, vous pouvez acceder a Php My Admin via l'adresse ip du serveur, Port 80 ;)"
